@@ -1,30 +1,29 @@
 class NotesController {
-    constructor(model, view) {
-        this._model = model;
-        this._view = view;
-    }
-
-    init() {
-        this._model.getNotes((data) => {
-            this._view.renderNotes(data)
-        });
-
-        this.listenersAdd();
-        this.listenerRemove()
-    }
-
-    listenersAdd() {
-        this._view.listenFavoriteNote((id) => { this._model.changeFavorite(id, (notes) =>
-        	{this._view.renderFavoriteNotes(notes) 
-        	})
-       });
+  constructor(model, view) {
+    this.model = model;
+    this.view = view;
   }
 
-    listenerRemove(){
-    	this._view.listenRemoveNote((id) => {
-    		this._model.delete(id, (notes) => {
-    			this._view.renderFavoriteNotes(notes)
-            })
-          });
+  getAll() {
+    return this.model.get();
+  }
+  getFavorite() {
+    return this.model.filter(x => x.isFavorite);
+  }
+
+  getCommon() {
+    return this.model.filter(x => !x.isFavorite);
+  }
+
+  toggleFavorite(id) {
+    const item = this.model.find(id);
+    if (item) {
+      item.isFavorite = !item.isFavorite;
+      return this.model.update(id, item);
     }
+    return false;
+  }
+  remove(id) {
+    return this.model.delete(id);
+  }
 }

@@ -1,18 +1,10 @@
 class App {
-    constructor() {
-        let model = new NotesModel();
-        let view = new NotesView();
-        let ctrl = new NotesController(model, view);
-
-        ctrl.init();
-    }
+  constructor() {
+    this.controller = new NotesController(new NotesModel(), new NotesView());
+  }
 }
 
 let app = new App();
-
-
-
-
 
 // let getSomeData = function (cb) {
 //     // get smth .....
@@ -20,13 +12,11 @@ let app = new App();
 //     cb(data);
 // }
 
-
 // // _______
 
 // getSomeData((data) => {
 //     console.log(data)
 // });
-
 
 // $('.box').hide();
 // $.ajax()
